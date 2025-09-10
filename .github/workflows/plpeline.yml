@@ -27,15 +27,26 @@ jobs:
 
       # 3. Configure AWS credentials
       - name: Configure AWS credentials
+        id: creds
+        continue-on-error: true
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-1
-
-      # 🔍 Debug: who am I in AWS?
       
-      - name: Verify AWS identity
+      # Debug if secrets are set
+      - name: Debug secret availability
+        run: |
+          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+            echo "AWS_ACCESS_KEY_ID is EMPTY"
+          else
+            echo "AWS_ACCESS_KEY_ID is SET"
+          fi
+
+      # Try using AWS CLI anyway
+      - name: Debug AWS identity
+        continue-on-error: true
         run: aws sts get-caller-identity
 
       # 4. Terraform Init
