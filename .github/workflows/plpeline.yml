@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TF_WORKING_DIR: ./terraform/eks   # Path to your Terraform files
+      TF_WORKING_DIR: ./EKS   # Path to your Terraform files
 
     steps:
       # 1. Checkout repo
